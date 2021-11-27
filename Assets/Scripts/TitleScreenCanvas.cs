@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR;
 using UnityEngine.SceneManagement;
-using Valve.VR.InteractionSystem;
-using Valve.VR;
+using UnityEngine.InputSystem;
 
 public class TitleScreenCanvas : MonoBehaviour
 {
@@ -12,24 +12,31 @@ public class TitleScreenCanvas : MonoBehaviour
     public Canvas optionsCanvas;
     public BoxCollider[] optionsCanvasColliders;
     public Canvas mainCanvas;
-    public BoxCollider[] mainCanvasColliders;
-    Player player;
+    public Transform player;
+    //Player player;
     bool heightSet = false;
+    int framesElapsed = 0;
     // Start is called before the first frame update
     void Start()
     {
         BackToMain();
-        player = FindObjectOfType<Player>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if(!heightSet && player.eyeHeight > 0)
+        if (framesElapsed >= 1) //height will report lower than actual if <1 frame has elapsed since load
         {
-            transform.position += new Vector3(0, player.eyeHeight, 0);
-            heightSet = true;
+            if (!heightSet)
+            {
+                float? y = PlayerUtilities.GetRelativeHeight(player.position, -0.2f);
+                if (y != null)
+                {
+                    transform.position = new Vector3(transform.position.x, (float)y, transform.position.z);
+                    heightSet = true;
+                }
+            }
         }
+        else framesElapsed++;
     }
 
     public void QuitGame()
@@ -39,34 +46,22 @@ public class TitleScreenCanvas : MonoBehaviour
 
     public void PlayGame()
     {
-        SteamVR_LoadLevel.Begin("Alley");
+        SceneManager.LoadScene("Alley");
     }
 
     private void SetOptions(bool enable)
     {
         optionsCanvas.enabled = enable;
-        foreach(BoxCollider b in optionsCanvasColliders)
-        {
-            b.enabled = enable;
-        }
     }
 
     private void SetCredits(bool enable)
     {
         creditsCanvas.enabled = enable;
-        foreach (BoxCollider b in creditsCanvasColliders)
-        {
-            b.enabled = enable;
-        }
     }
 
     private void SetMain(bool enable)
     {
         mainCanvas.enabled = enable;
-        foreach (BoxCollider b in mainCanvasColliders)
-        {
-            b.enabled = enable;
-        }
     }
 
     public void ShowOptions()

@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 #endif
 using UnityEngine;
-using Valve.VR;
 
 public static class InVRCheck
 {
-#if !UNITY_EDITOR
+/*#if !UNITY_EDITOR
 #if UNITY_STANDALONE_WIN
     [DllImport("user32.dll")]
     static extern int MessageBox(System.IntPtr hwnd, string lpText, string lpCaption, uint uType);
@@ -39,5 +38,5 @@ public static class InVRCheck
         while (SteamVR.initializedState == SteamVR.InitializedStates.None || SteamVR.initializedState == SteamVR.InitializedStates.Initializing)
             yield return true;
     }
-#endif
+#endif*/
 }

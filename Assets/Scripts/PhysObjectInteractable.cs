@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
-public class Reload : MonoBehaviour
+public class PhysObjectInteractable : XRGrabInteractable
 {
     // Start is called before the first frame update
     void Start()
@@ -16,8 +17,8 @@ public class Reload : MonoBehaviour
         
     }
 
-    public void ReloadLevel()
+    public override bool IsHoverableBy(XRBaseInteractor interactor)
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+        return Vector3.Distance(interactor.attachTransform.position, transform.position) <= 0.3f;
     }
 }

@@ -16,6 +16,7 @@ public class BowlingBall : MonoBehaviour
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        rigid.maxAngularVelocity = 2000;
     }
 
     // Update is called once per frame
@@ -66,5 +67,12 @@ public class BowlingBall : MonoBehaviour
         transform.position = ballRespawnPosition;
         rigid.angularVelocity = Vector3.zero;
         rigid.velocity = Vector3.back;
+    }
+
+    public void OnGrab()
+    {
+        rigid.angularVelocity = Vector3.zero;
+        rigid.velocity = Vector3.zero;
+        audioSource.Stop();
     }
 }

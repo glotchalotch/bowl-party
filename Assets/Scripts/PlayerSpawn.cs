@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Valve.VR.InteractionSystem;
+//using Valve.VR.InteractionSystem;
 
 public class PlayerSpawn : MonoBehaviour
 {
@@ -10,11 +10,11 @@ public class PlayerSpawn : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        Player _player = Player.instance;
+        /*Player _player = Player.instance;
         if (_player == null)
         {
             Instantiate(playerPrefab, transform);
-        } else _player.transform.SetPositionAndRotation(transform.position, transform.rotation);
+        } else _player.transform.SetPositionAndRotation(transform.position, transform.rotation);*/
         /*else
         {
             Player = _player;

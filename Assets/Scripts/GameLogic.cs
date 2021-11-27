@@ -53,7 +53,6 @@ public class GameLogic : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Valve.VR.InteractionSystem.Teleport.instance.CancelTeleportHint();
         frame = 0;
         subframe = 0;
         pins = pinParentObject.GetComponentsInChildren<Pin>(true);

@@ -2,30 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using Valve.VR.InteractionSystem;
 
 public class ScoreboardUIController : MonoBehaviour
 {
     public FrameUIController[] frames;
     public TextMeshProUGUI totalOverall;
     public TextMeshProUGUI highScoreText;
-    Player player;
+    public Transform player;
     bool heightSet = false;
+    int framesElapsed = 0;
     // Start is called before the first frame update
     void Start()
     {
-        player = FindObjectOfType<Player>();
+        SaveDataManager.LoadSave();
         highScoreText.SetText("High Score\n" + SaveDataManager.save.highScore.ToString());
     }
 
     // Update is called once per frame
-    void Update()
+    private void LateUpdate()
     {
-        if(!heightSet && player.eyeHeight > 0)
+        if (framesElapsed >= 1) //height will report lower than actual if <1 frame has elapsed since load
         {
-            transform.position += new Vector3(0, player.eyeHeight, 0);
-            heightSet = true;
+            if (!heightSet)
+            {
+                float? y = PlayerUtilities.GetRelativeHeight(player.position, 0);
+                if (y != null)
+                {
+                    transform.position = new Vector3(transform.position.x, (float)y, transform.position.z);
+                    heightSet = true;
+                }
+            }
         }
+        else framesElapsed++;
     }
 
     public void SetSubframeScore(int frame, int subframe, GameLogic.Score.IndividualScore score)

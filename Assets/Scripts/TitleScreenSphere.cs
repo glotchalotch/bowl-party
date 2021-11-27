@@ -16,7 +16,7 @@ public class TitleScreenSphere : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(transform.up, 0.03f);
+        transform.Rotate(transform.up, 3f * Time.deltaTime);
 
         if(ballsFunny.Count < 40)
         {
@@ -32,12 +32,16 @@ public class TitleScreenSphere : MonoBehaviour
         bool ballDestroyed = false;
         foreach(GameObject ball in ballsFunny)
         {
-            ball.transform.position -= Vector3.up * 0.1f;
-            if(ball.transform.position.y < transform.position.y - 4.5f)
+            if (ball != null)
             {
-                Destroy(ball);
-                ballDestroyed = true;
+                ball.transform.position -= Vector3.up * 1f * Time.deltaTime;
+                if (ball.transform.position.y < transform.position.y - 4.5f)
+                {
+                    Destroy(ball);
+                    ballDestroyed = true;
+                }
             }
+            else ballDestroyed = true;
         }
         if (ballDestroyed) ballsFunny.Dequeue();
     }
